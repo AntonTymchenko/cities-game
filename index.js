@@ -41,24 +41,4 @@ function onInputChange(e) {
     e.currentTarget.value = "";
     return;
   }
-  console.log("citiesArr", cities);
 }
-
-// if (!witchTurn) {
-//   player1 += 1;
-//   firstPlayer.textContent = player1;
-// } else {
-//   player2 += 1;
-//   secondPlayer.textContent = player2;
-// }
-// if (!city.trim()) {
-//     e.currentTarget.value = "";
-//     alertOptions(message, "opacity", city);
-//   }
-//   if (!checkCities(cities, city)) {
-//     cities.push(city);
-//     e.currentTarget.value = "";
-//   } else {
-//     alertOptions(message, "opacity", city);
-//     e.currentTarget.value = "";
-//   }
