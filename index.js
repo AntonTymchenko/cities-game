@@ -1,4 +1,8 @@
-import { checkCities, alertOptions } from "./util.js";
+import {
+  checkDoubleCities,
+  alertOptions,
+  checkFirstAndLastLetter,
+} from "./util.js";
 
 let field = document.querySelector("#field");
 let message = document.querySelector("#message");
@@ -13,25 +17,48 @@ let player2 = 0;
 field.addEventListener("change", onInputChange);
 
 function onInputChange(e) {
-  witchTurn = !witchTurn;
-  console.log("witchTurn", witchTurn);
   let city = e.currentTarget.value;
   if (!city.trim()) {
+    alertOptions(message, "opacity", city, false, cities);
     e.currentTarget.value = "";
-    alertOptions(message, "opacity", city);
+    return;
   }
-  if (!checkCities(cities, city)) {
+  if (
+    checkFirstAndLastLetter(cities, city) &&
+    checkDoubleCities(cities, city)
+  ) {
     cities.push(city);
     e.currentTarget.value = "";
-  } else {
-    if (!witchTurn) {
-      player1 += 1;
-      firstPlayer.textContent = player1;
-    } else {
-      player2 += 1;
-      secondPlayer.textContent = player2;
-    }
-    alertOptions(message, "opacity", city);
-    e.currentTarget.value = "";
+    return;
   }
+  if (!checkFirstAndLastLetter(cities, city)) {
+    alertOptions(message, "opacity", city, true, cities);
+    e.currentTarget.value = "";
+    return;
+  }
+  if (!checkDoubleCities(cities, city)) {
+    alertOptions(message, "opacity", city, false, cities);
+    e.currentTarget.value = "";
+    return;
+  }
+  console.log("citiesArr", cities);
 }
+
+// if (!witchTurn) {
+//   player1 += 1;
+//   firstPlayer.textContent = player1;
+// } else {
+//   player2 += 1;
+//   secondPlayer.textContent = player2;
+// }
+// if (!city.trim()) {
+//     e.currentTarget.value = "";
+//     alertOptions(message, "opacity", city);
+//   }
+//   if (!checkCities(cities, city)) {
+//     cities.push(city);
+//     e.currentTarget.value = "";
+//   } else {
+//     alertOptions(message, "opacity", city);
+//     e.currentTarget.value = "";
+//   }
