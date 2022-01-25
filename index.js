@@ -2,43 +2,63 @@ import {
   checkDoubleCities,
   alertOptions,
   checkFirstAndLastLetter,
-} from "./util.js";
+  checkCityInArrForComputer,
+  findCityForComputerMove,
+  endGame,
+} from "./utils.js";
 
-let field = document.querySelector("#field");
-let message = document.querySelector("#message");
-let firstPlayer = document.querySelector("#player1");
-let secondPlayer = document.querySelector("#player2");
+import citiesArrForComputer from "./citiesNames.js";
 
-const cities = [];
-let witchTurn = true;
-let player1 = 0;
-let player2 = 0;
+const field = document.querySelector("#field");
+const message = document.querySelector("#message");
+const citiesList = document.querySelector("#citiesList");
+
+const citiesArrForPlayer = [];
 
 field.addEventListener("change", onInputChange);
 
 function onInputChange(e) {
   let city = e.currentTarget.value;
   if (!city.trim()) {
-    alertOptions(message, "opacity", city, false, cities);
+    alertOptions(message, "opacity", city, false, citiesArrForPlayer);
     e.currentTarget.value = "";
     return;
   }
   if (
-    checkFirstAndLastLetter(cities, city) &&
-    checkDoubleCities(cities, city)
+    checkFirstAndLastLetter(citiesArrForPlayer, city) &&
+    checkDoubleCities(citiesArrForPlayer, city)
   ) {
-    cities.push(city);
+    citiesArrForPlayer.push(city);
+    e.currentTarget.value = "";
+    movesOfComp(citiesList, citiesArrForPlayer);
+    return;
+  }
+  if (!checkFirstAndLastLetter(citiesArrForPlayer, city)) {
+    alertOptions(message, "opacity", city, true, citiesArrForPlayer);
     e.currentTarget.value = "";
     return;
   }
-  if (!checkFirstAndLastLetter(cities, city)) {
-    alertOptions(message, "opacity", city, true, cities);
+  if (!checkDoubleCities(citiesArrForPlayer, city)) {
+    alertOptions(message, "opacity", city, false, citiesArrForPlayer);
     e.currentTarget.value = "";
     return;
   }
-  if (!checkDoubleCities(cities, city)) {
-    alertOptions(message, "opacity", city, false, cities);
-    e.currentTarget.value = "";
+}
+
+function movesOfComp(citiesList, citiesArrForPlayer) {
+  const city = citiesArrForPlayer[citiesArrForPlayer.length - 1];
+  checkCityInArrForComputer(citiesArrForComputer, city);
+  const cityForComputerMove = findCityForComputerMove(
+    citiesArrForComputer,
+    city
+  );
+  if (cityForComputerMove) {
+    citiesArrForPlayer.push(cityForComputerMove);
+  } else {
+    endGame(message, "opacity", city);
     return;
   }
+  let citiesItem = document.createElement("li");
+  citiesItem.textContent = cityForComputerMove;
+  citiesList.appendChild(citiesItem);
 }
