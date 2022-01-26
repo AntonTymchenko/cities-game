@@ -70,5 +70,34 @@ export function endGame(el, className, city) {
   el.classList.remove(`${className}`);
   el.textContent = `Ты победил меня! Я не знаю больше городов на букву ${city[
     city.length - 1
-  ].toUpperCase()}. Перезагрузи страницу чтобы начать заново`;
+  ].toUpperCase()}.`;
+}
+
+export function checkCityInComputerList(
+  city,
+  citiesArrForComputer,
+  citiesListOfComputerMoves
+) {
+  const didMoveOfComputer = citiesListOfComputerMoves.some(
+    (item) => item.toLowerCase() === city.toLowerCase()
+  );
+  const checkInNativeCitiesComputerList = citiesArrForComputer.some(
+    (item) => item.toLowerCase() === city.toLowerCase()
+  );
+  if (
+    !checkInNativeCitiesComputerList ||
+    (!didMoveOfComputer && didMoveOfComputer.length)
+  ) {
+    const choice = confirm(
+      `Вы уверенны, что такой город как ${city} существует  ?`
+    );
+    if (choice) {
+      alert("Ок я тебе верю и засчитаю этот вариант");
+    } else {
+      alert("Спасибо за честность, можешь просто переходить");
+      return false;
+    }
+    return choice;
+  }
+  return true;
 }
