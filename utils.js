@@ -31,7 +31,7 @@ export const alertOptions = (el, className, city, letters = false, arr) => {
     } не совпадают`;
     return;
   } else {
-    el.textContent = "В следующий раз введите слово!";
+    el.textContent = "В следующий раз введите слово! Вариант не защитан";
     return;
   }
 };
@@ -89,10 +89,12 @@ export function checkCityInComputerList(
     (!didMoveOfComputer && didMoveOfComputer.length)
   ) {
     const choice = confirm(
-      `Вы уверенны, что такой город как ${city} существует  ?`
+      `Вы уверенны, что такой город как ${city} существует ? В моем списке такого города нет.`
     );
     if (choice) {
-      alert("Ок я тебе верю и засчитаю этот вариант");
+      alert(
+        "Ок я тебе верю и засчитаю этот вариант, если он пройдет дальнейшую проверку"
+      );
     } else {
       alert("Спасибо за честность, можешь просто переходить");
       return false;

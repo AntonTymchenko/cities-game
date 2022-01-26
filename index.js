@@ -72,7 +72,7 @@ function movesOfComp(citiesList, citiesArrForPlayer) {
     endGame(message, "opacity", city);
     setTimeout(() => {
       refreshGame(citiesList);
-    }, 2000);
+    }, 1000);
 
     return;
   }
